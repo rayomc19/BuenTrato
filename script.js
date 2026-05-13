@@ -89,6 +89,7 @@ function crearTarjeta(producto, index) {
       </div>
     </div>`;
 }
+
 // FUNCIÓN DE RENDERIZADO (Esencial para que el buscador funcione)
 function render(data) {
   const contenedor = document.getElementById("cards-container");
@@ -106,6 +107,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const themeText = document.getElementById('theme-text');
   const body = document.body;
   const buscador = document.getElementById("buscador");
+  
+  // NUEVO: Capturamos el contenedor del texto
+  const textoConcepto = document.getElementById('texto-concepto'); 
 
   // Iniciar pantalla
   const savedTheme = localStorage.getItem('theme');
@@ -120,6 +124,16 @@ document.addEventListener('DOMContentLoaded', () => {
   if (buscador) {
     buscador.addEventListener("input", (e) => {
       const texto = e.target.value.toLowerCase();
+      
+      // NUEVA LÓGICA: Ocultar o mostrar el texto del concepto
+      if (textoConcepto) {
+        if (texto.trim() !== '') {
+          textoConcepto.style.display = 'none'; // Se oculta al escribir
+        } else {
+          textoConcepto.style.display = 'block'; // Vuelve a aparecer si está vacío
+        }
+      }
+
       const filtrados = productos
         .map((p, i) => ({ ...p, originalIndex: i }))
         .filter(p => p.nombre.toLowerCase().includes(texto));
